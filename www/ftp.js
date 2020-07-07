@@ -25,13 +25,13 @@ var exec = require('cordova/exec');
  * Util to remove path protocol prefix.
  */
 function removePathProtocolPrefix(path) {
-    if (path.indexOf("file://") === 0) {
-        return path.substring(7);
-    } else if (path.indexOf("file:") === 0) {
-        return path.substring(5);
-    } else {
-        return path;
-    }
+  if (path.indexOf('file://') === 0) {
+    return path.substring(7);
+  } else if (path.indexOf('file:') === 0) {
+    return path.substring(5);
+  } else {
+    return path;
+  }
 }
 
 /**
@@ -53,11 +53,18 @@ function Ftp() {}
  *                                   Notice: For iOS, if triggered, means `init` success. But NOT means the later action, e.g. `ls`... `download` will success!
  * @param {function} errorCallback The error callback. If triggered, means init fail.
  */
-Ftp.prototype.connect = function(hostname, username, password, successCallback, errorCallback) {
-    exec(successCallback,
-        errorCallback,
-        "Ftp",
-        "connect", [hostname, username, password]);
+Ftp.prototype.connect = function (
+  hostname,
+  username,
+  password,
+  successCallback,
+  errorCallback
+) {
+  exec(successCallback, errorCallback, 'Ftp', 'connect', [
+    hostname,
+    username,
+    password,
+  ]);
 };
 
 /**
@@ -76,15 +83,18 @@ Ftp.prototype.connect = function(hostname, username, password, successCallback, 
  * @param {function} successCallback The success callback, invoked with arg `{array} fileList`.
  * @param {function} errorCallback The error callback. If triggered, means fail.
  */
-Ftp.prototype.ls = function(path, successCallback, errorCallback) {
-    exec(function(fileList) {
-            if (fileList instanceof Array) {
-                successCallback(fileList);
-            }
-        },
-        errorCallback,
-        "Ftp",
-        "list", [removePathProtocolPrefix(path)]);
+Ftp.prototype.ls = function (path, successCallback, errorCallback) {
+  exec(
+    function (fileList) {
+      if (fileList instanceof Array) {
+        successCallback(fileList);
+      }
+    },
+    errorCallback,
+    'Ftp',
+    'list',
+    [removePathProtocolPrefix(path)]
+  );
 };
 
 /**
@@ -94,11 +104,10 @@ Ftp.prototype.ls = function(path, successCallback, errorCallback) {
  * @param {function} successCallback The success callback. If triggered, means success.
  * @param {function} errorCallback The error callback. If triggered, means fail.
  */
-Ftp.prototype.mkdir = function(path, successCallback, errorCallback) {
-    exec(successCallback,
-        errorCallback,
-        "Ftp",
-        "createDirectory", [removePathProtocolPrefix(path)]);
+Ftp.prototype.mkdir = function (path, successCallback, errorCallback) {
+  exec(successCallback, errorCallback, 'Ftp', 'createDirectory', [
+    removePathProtocolPrefix(path),
+  ]);
 };
 
 /**
@@ -110,11 +119,10 @@ Ftp.prototype.mkdir = function(path, successCallback, errorCallback) {
  * @param {function} successCallback The success callback. If triggered, means success.
  * @param {function} errorCallback The error callback. If triggered, means fail.
  */
-Ftp.prototype.rmdir = function(path, successCallback, errorCallback) {
-    exec(successCallback,
-        errorCallback,
-        "Ftp",
-        "deleteDirectory", [removePathProtocolPrefix(path)]);
+Ftp.prototype.rmdir = function (path, successCallback, errorCallback) {
+  exec(successCallback, errorCallback, 'Ftp', 'deleteDirectory', [
+    removePathProtocolPrefix(path),
+  ]);
 };
 
 /**
@@ -124,11 +132,10 @@ Ftp.prototype.rmdir = function(path, successCallback, errorCallback) {
  * @param {function} successCallback The success callback. If triggered, means success.
  * @param {function} errorCallback The error callback. If triggered, means fail.
  */
-Ftp.prototype.rm = function(file, successCallback, errorCallback) {
-    exec(successCallback,
-        errorCallback,
-        "Ftp",
-        "deleteFile", [removePathProtocolPrefix(file)]);
+Ftp.prototype.rm = function (file, successCallback, errorCallback) {
+  exec(successCallback, errorCallback, 'Ftp', 'deleteFile', [
+    removePathProtocolPrefix(file),
+  ]);
 };
 
 /**
@@ -141,11 +148,16 @@ Ftp.prototype.rm = function(file, successCallback, errorCallback) {
  *                                   The arg `0`, `0.11..`, `0.23..` ... `1` means the upload percent. When it reach `1`, means success.
  * @param {function} errorCallback The error callback. If triggered, means fail.
  */
-Ftp.prototype.upload = function(localFile, remoteFile, successCallback, errorCallback) {
-    exec(successCallback,
-        errorCallback,
-        "Ftp",
-        "uploadFile", [removePathProtocolPrefix(localFile), removePathProtocolPrefix(remoteFile)]);
+Ftp.prototype.upload = function (
+  localFile,
+  remoteFile,
+  successCallback,
+  errorCallback
+) {
+  exec(successCallback, errorCallback, 'Ftp', 'uploadFile', [
+    removePathProtocolPrefix(localFile),
+    removePathProtocolPrefix(remoteFile),
+  ]);
 };
 
 /**
@@ -158,11 +170,16 @@ Ftp.prototype.upload = function(localFile, remoteFile, successCallback, errorCal
  *                                   The arg `0`, `0.11..`, `0.23..` ... `1` means the download percent. When it reach `1`, means success.
  * @param {function} errorCallback The error callback. If triggered, means fail.
  */
-Ftp.prototype.download = function(localFile, remoteFile, successCallback, errorCallback) {
-    exec(successCallback,
-        errorCallback,
-        "Ftp",
-        "downloadFile", [removePathProtocolPrefix(localFile), removePathProtocolPrefix(remoteFile)]);
+Ftp.prototype.download = function (
+  localFile,
+  remoteFile,
+  successCallback,
+  errorCallback
+) {
+  exec(successCallback, errorCallback, 'Ftp', 'downloadFile', [
+    removePathProtocolPrefix(localFile),
+    removePathProtocolPrefix(remoteFile),
+  ]);
 };
 
 /**
@@ -171,11 +188,8 @@ Ftp.prototype.download = function(localFile, remoteFile, successCallback, errorC
  * @param {function} successCallback The success callback. If triggered, means `cancel` success.
  * @param {function} errorCallback The error callback. If triggered, means cancel fail.
  */
-Ftp.prototype.cancel = function(successCallback, errorCallback) {
-    exec(successCallback,
-        errorCallback,
-        "Ftp",
-        "cancelAllRequests", []);
+Ftp.prototype.cancel = function (successCallback, errorCallback) {
+  exec(successCallback, errorCallback, 'Ftp', 'cancelAllRequests', []);
 };
 
 /**
@@ -184,12 +198,28 @@ Ftp.prototype.cancel = function(successCallback, errorCallback) {
  * @param {function} successCallback The success callback. If triggered, means `disconnect` success.
  * @param {function} errorCallback The error callback. If triggered, means disconnect fail.
  */
-Ftp.prototype.disconnect = function(successCallback, errorCallback) {
-    exec(successCallback,
-        errorCallback,
-        "Ftp",
-        "disconnect", []);
+Ftp.prototype.disconnect = function (successCallback, errorCallback) {
+  exec(successCallback, errorCallback, 'Ftp', 'disconnect', []);
+};
+
+/**
+ * Rename one file on the ftp server.
+ *
+ * @param {string} oldFile The old file or directory (with full path) you want to rename. e.g. "/remotePath/remoteFile".
+ * @param {string} newFile The new file or directory name (with full path) e.g. "/remotePath/remoteFile".
+ * @param {function} successCallback The success callback. If triggered, means success.
+ * @param {function} errorCallback The error callback. If triggered, means fail.
+ */
+Ftp.prototype.rename = function (
+  oldFile,
+  newFile,
+  successCallback,
+  errorCallback
+) {
+  exec(successCallback, errorCallback, 'Ftp', 'rename', [
+    removePathProtocolPrefix(oldFile),
+    removePathProtocolPrefix(newFile),
+  ]);
 };
 
 module.exports = new Ftp();
-
